@@ -95,6 +95,7 @@ body {
   width: 100%;
   padding: 20px;
   display: flex;
+  flex-wrap: wrap;
   border-radius: 5px;
   box-shadow: 0 1px 6px -2px #000;
   background-color: #FFF;
@@ -122,6 +123,30 @@ body {
   font-style: italic;
   margin: 3px 0 10px;
 }
+
+.card .graph {
+  display: none;
+  width: 100%;
+}
+
+.card-info {
+  width: 70%;
+}
+
+.card .showGraph {
+  display: block;
+}
+
+.card-info .button {
+  background: lightcyan;
+  border-radius: 5px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  width: 100px;
+  border: 1px solid black;
+}
+
 
 
 
