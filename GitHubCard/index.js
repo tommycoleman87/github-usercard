@@ -8,6 +8,21 @@ axios.get('https://api.github.com/users/tommycoleman87')
   const container = document.querySelector('.cards');
   container.appendChild(gitHubCard(user));
   console.log("Success", data.data);
+  const followers = user.followers_url
+  console.log(followers);
+  axios.get(followers)
+  .then(fData => {
+    const users = fData.data;
+    users.forEach(fUser => {
+      container.appendChild(gitHubCard(fUser));
+    })
+    console.log(users)
+    console.log(fData);
+  })
+  .catch(error => {
+    console.log("Error", error)
+  })
+
 })
 .catch(error => {
   console.log("Error", error)
@@ -33,9 +48,9 @@ axios.get('https://api.github.com/users/tommycoleman87')
           user, and adding that card to the DOM.
 */
 
-const followersArray = ['https://api.github.com/users/tetondan','https://api.github.com/users/dustinmyers','https://api.github.com/users/Prouty89', 'https://api.github.com/users/mngmay', 'https://api.github.com/users/bigknell'];
+//const followersArray = ['https://api.github.com/users/tetondan','https://api.github.com/users/dustinmyers','https://api.github.com/users/Prouty89', 'https://api.github.com/users/mngmay', 'https://api.github.com/users/bigknell'];
 
-followersArray.forEach(follower => {
+/*followersArray.forEach(follower => {
   axios.get(follower)
   .then(data => {
     const user = data.data;
@@ -46,7 +61,7 @@ followersArray.forEach(follower => {
   .catch(error => {
     console.log("Error", error)
   })
-})
+})*/
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -81,12 +96,14 @@ function gitHubCard(user) {
   const userFollowers = document.createElement('p');
   const userFollowing = document.createElement('p');
   const userBio = document.createElement('p');
+ 
 
   //Set classlists
   card.classList.add('card');
   userInfo.classList.add('card-info');
   usersName.classList.add('name');
   usersUserName.classList.add('username');
+ 
 
   //Set Content
   userImg.src = user.avatar_url;
@@ -99,6 +116,7 @@ function gitHubCard(user) {
   userFollowers.textContent = `Followers: ${user.followers}`;
   userFollowing.textContent = `Following: ${user.following}`;
   userBio.textContent = user.bio;
+  
 
   //Append children of Children
   userProfile.appendChild(userProfileLink);
@@ -109,10 +127,14 @@ function gitHubCard(user) {
   userInfo.appendChild(userFollowers);
   userInfo.appendChild(userFollowing);
   userInfo.appendChild(userBio);
+  
 
   //Append Children to Container
   card.appendChild(userImg);
   card.appendChild(userInfo);
+  
+  
+  
 
   //Return Card
   return card;
