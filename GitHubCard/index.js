@@ -14,7 +14,11 @@ axios.get('https://api.github.com/users/tommycoleman87')
   .then(fData => {
     const users = fData.data;
     users.forEach(fUser => {
-      container.appendChild(gitHubCard(fUser));
+      axios.get(fUser.url)
+      .then(userData => {
+        fUser = userData.data;
+        container.appendChild(gitHubCard(fUser));
+      })
     })
     console.log(users)
     console.log(fData);
@@ -96,6 +100,7 @@ function gitHubCard(user) {
   const userFollowers = document.createElement('p');
   const userFollowing = document.createElement('p');
   const userBio = document.createElement('p');
+  const userGraph = document.createElement('img');
  
 
   //Set classlists
@@ -103,6 +108,7 @@ function gitHubCard(user) {
   userInfo.classList.add('card-info');
   usersName.classList.add('name');
   usersUserName.classList.add('username');
+  userGraph.classList.add('graph');
  
 
   //Set Content
@@ -116,6 +122,7 @@ function gitHubCard(user) {
   userFollowers.textContent = `Followers: ${user.followers}`;
   userFollowing.textContent = `Following: ${user.following}`;
   userBio.textContent = user.bio;
+  userGraph.src = `http://ghchart.rshah.org/${user.login}`;
   
 
   //Append children of Children
@@ -132,9 +139,17 @@ function gitHubCard(user) {
   //Append Children to Container
   card.appendChild(userImg);
   card.appendChild(userInfo);
+  card.appendChild(userGraph);
   
   
-  
+  userImg.addEventListener('click', event => {
+    
+    const graphs = document.querySelectorAll('.showGraph');
+    userGraph.classList.toggle('showGraph');
+    graphs.forEach(graph => {
+      graph.classList.remove('showGraph')
+    })
+  })
 
   //Return Card
   return card;
