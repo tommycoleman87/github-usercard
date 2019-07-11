@@ -101,6 +101,7 @@ function gitHubCard(user) {
   const userFollowing = document.createElement('p');
   const userBio = document.createElement('p');
   const userGraph = document.createElement('img');
+  const button = document.createElement('button');
  
 
   //Set classlists
@@ -109,31 +110,45 @@ function gitHubCard(user) {
   usersName.classList.add('name');
   usersUserName.classList.add('username');
   userGraph.classList.add('graph');
+  button.classList.add('button');
  
 
   //Set Content
   userImg.src = user.avatar_url;
-  usersName.textContent = user.name;
-  usersUserName.textContent = user.login;
-  userLocation.textContent = user.location;
+  if(user.name) {  
+    usersName.textContent = user.name;
+  } else {
+      usersName.textContent = user.login;
+    }
+  if(user.name) {
+    usersUserName.textContent = user.login; 
+  } else {
+    usersUserName.textContent;
+  }
+  userLocation.textContent = `Location: ${user.location}`;
   userProfile.textContent = "Profile: ";
   userProfileLink.textContent = user.html_url;
   userProfileLink.href = user.html_url;
+  userProfileLink.target = "_blank";
   userFollowers.textContent = `Followers: ${user.followers}`;
   userFollowing.textContent = `Following: ${user.following}`;
-  userBio.textContent = user.bio;
+  userBio.textContent = `Bio: ${user.bio}`;
   userGraph.src = `http://ghchart.rshah.org/${user.login}`;
-  
+  button.textContent = "Show Graph";
 
   //Append children of Children
   userProfile.appendChild(userProfileLink);
   userInfo.appendChild(usersName);
   userInfo.appendChild(usersUserName);
-  userInfo.appendChild(userLocation);
+  if(user.location){userInfo.appendChild(userLocation)
+  };
   userInfo.appendChild(userProfile);
   userInfo.appendChild(userFollowers);
   userInfo.appendChild(userFollowing);
-  userInfo.appendChild(userBio);
+  if(user.bio){
+    userInfo.appendChild(userBio);
+  }
+  userInfo.appendChild(button);
   
 
   //Append Children to Container
@@ -142,12 +157,21 @@ function gitHubCard(user) {
   card.appendChild(userGraph);
   
   
-  userImg.addEventListener('click', event => {
+  button.addEventListener('click', event => {
     
     const graphs = document.querySelectorAll('.showGraph');
     userGraph.classList.toggle('showGraph');
+    if(userGraph.classList.contains('showGraph')) {
+      button.textContent = "Close Graph";
+    } else {
+      button.textContent = "Show Graph";
+    }
     graphs.forEach(graph => {
       graph.classList.remove('showGraph')
+      const div = graph.parentNode;
+      const graphCard = div.querySelector('.card-info');
+      const graphButton = graphCard.querySelector('.button');
+      graphButton.textContent = 'Show Graph';
     })
   })
 

@@ -129,8 +129,22 @@ body {
   width: 100%;
 }
 
+.card-info {
+  width: 70%;
+}
+
 .card .showGraph {
   display: block;
+}
+
+.card-info .button {
+  background: lightcyan;
+  border-radius: 5px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  width: 100px;
+  border: 1px solid black;
 }
 
 
